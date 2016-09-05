@@ -1,10 +1,12 @@
 package com.najib.task4;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,25 +14,35 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    SharedPreferences shared_preference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        shared_preference = getSharedPreferences("authentication", MODE_PRIVATE);
+/*
+        if (shared_preference.getString("token_authentication", "").equals("")) {
+            Intent intent_obj = new Intent(this, LoginActivity.class);
+            startActivity(intent_obj);
+            this.finish();
+        }*/
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -80,15 +92,32 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_profile) {
-          //  Intent intent_obj = new Intent(this, ProfileActivity.class);
-          //  startActivity(intent_obj);
-        } else if (id == R.id.nav_contact) {
-           // Intent intent_obj = new Intent(this, ContactActivity.class);
-          //  startActivity(intent_obj);
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        if (id == R.id.nav_dashboard) {
+            Fragment dashboard = new DashboardFragment();
+            ft.replace(R.id.fragment_place, dashboard);
+        } else if (id == R.id.nav_transaction) {
+            Fragment transaction = new TransactionFragment();
+            ft.replace(R.id.fragment_place, transaction);
+        } else if (id == R.id.nav_synchronize) {
+            Fragment synchronize = new SynchronizeFragment();
+            ft.replace(R.id.fragment_place, synchronize);
+        } else if (id == R.id.nav_logout) {
+
+            SharedPreferences.Editor sp_editor = shared_preference.edit();
+            sp_editor.clear();
+            sp_editor.commit();
+
+            Intent intent_obj = new Intent(this, LoginActivity.class);
+            startActivity(intent_obj);
+
+            Toast.makeText(getApplicationContext(), "Logout Berhasil..", Toast.LENGTH_SHORT).show();
+            this.finish();
         }
+
+        ft.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

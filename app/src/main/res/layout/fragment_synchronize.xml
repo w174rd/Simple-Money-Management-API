@@ -1,0 +1,19 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.najib.task4.SynchronizeFragment"
+    android:background="#FFFFFF">
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Synchronize"
+        android:textColorHint="#FFFFFF"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:id="@+id/button"
+        android:background="@drawable/button_biru"
+        android:layout_gravity="center"/>
+</FrameLayout>

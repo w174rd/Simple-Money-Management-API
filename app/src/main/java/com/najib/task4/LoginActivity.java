@@ -78,9 +78,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
 
         SharedPreferences get_shared_preference = getSharedPreferences("authentication", MODE_PRIVATE);
-        if (get_shared_preference.getString("token_authentication", "").equals("")) {
-
-        } else {
+        if (!get_shared_preference.getString("token_authentication", "").isEmpty()) {
             Intent intent_obj = new Intent(this, MainActivity.class);
             startActivity(intent_obj);
             this.finish();
@@ -181,28 +179,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
-        /*
-        if ((!TextUtils.isEmpty(password) && !isPasswordValid(password)) || TextUtils.isEmpty(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-        */
-
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+            // mPasswordView.setError(getString(R.string.error_field_required));
+            focusView = mPasswordView;
+            cancel = true;
+        } else if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+            //  mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-          //  mEmailView.setError(getString(R.string.error_field_required));
+            // mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
         } else if (!isEmailValid(email)) {
-         //   mEmailView.setError(getString(R.string.error_invalid_email));
+            //  mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
         }
@@ -372,8 +366,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             boolean aya = false;
             for (int i = 0; i < users.length(); i++) {
                 JSONObject user = users.getJSONObject(i);
-                Log.e("LOG","Email: "+user.getString("email"));
-                Log.e("LOG","Password: "+user.getString("password"));
+                Log.e("LOG", "Email: " + user.getString("email"));
+                Log.e("LOG", "Password: " + user.getString("password"));
                 if (user.getString("email").equals(Username) && user.getString("password").equals(Password)) {
 
                     Intent intent_obj = new Intent(this, MainActivity.class);
