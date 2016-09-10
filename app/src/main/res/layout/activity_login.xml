@@ -32,12 +32,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Login Page"
+                    android:text="login page"
                     android:id="@+id/textView"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal"
-                    android:textColor="#333333"
-                    android:textSize="40dp"
+                    android:textColor="#999999"
+                    android:textSize="30dp"
                     android:layout_marginTop="20dp"/>
 
                 <android.support.design.widget.TextInputLayout
@@ -93,10 +93,11 @@
                 android:id="@+id/email_sign_in_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:hint="Login"
                 android:textStyle="bold"
                 android:background="@drawable/button_login"
                 android:textColor="#333333"
+                android:textColorHint="#999999"
                 android:foregroundGravity="center|center_horizontal"
                 android:layout_gravity="center_horizontal"
                 android:layout_centerVertical="true"

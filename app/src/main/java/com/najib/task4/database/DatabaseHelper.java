@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String TABLE_NAME = "";
 
     public static final String TABLE_NAME_EX = "expanses";
-    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_ID = "_id";
     public static final String COLUMN_DESC = "desc";
     public static final String COLUMN_AMOUNT = "amount";
 
@@ -95,7 +95,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             TABLE_NAME = TABLE_NAME_IN;
         }
-        db.update(TABLE_NAME, content_values, "ID = ? ", new String[]{id});
+        db.update(TABLE_NAME, content_values, "_id = ? ", new String[]{id});
         return true;
     }
 
@@ -106,6 +106,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             TABLE_NAME = TABLE_NAME_IN;
         }
-        return db.delete(TABLE_NAME, "ID = ?", new String[]{id});
+        return db.delete(TABLE_NAME, "_id = ?", new String[]{id});
     }
 }

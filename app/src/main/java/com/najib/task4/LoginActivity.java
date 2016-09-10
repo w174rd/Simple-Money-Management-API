@@ -79,6 +79,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         SharedPreferences get_shared_preference = getSharedPreferences("authentication", MODE_PRIVATE);
         if (!get_shared_preference.getString("token_authentication", "").isEmpty()) {
+
+        }else{
             Intent intent_obj = new Intent(this, MainActivity.class);
             startActivity(intent_obj);
             this.finish();
@@ -297,7 +299,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onPreExecute() {
             progress_dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progress_dialog.setCancelable(true);
-            progress_dialog.setMessage("Antosan...");
+            progress_dialog.setMessage("Please Wait...");
             progress_dialog.show();
         }
 
@@ -307,13 +309,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                process_json(s, mEmail, mPassword);
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (result != null) {
+                try {
+                    process_json(result, mEmail, mPassword);
+                    progress_dialog.dismiss();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else {
                 progress_dialog.dismiss();
-            } catch (JSONException e) {
-                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Please check your internet connection.", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -345,8 +352,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Cek Koneksi Internet", Toast.LENGTH_SHORT).show();
-        } finally {
+        }finally {
             if (connection != null) connection.disconnect();
             try {
                 if (reader != null) reader.close();
@@ -383,7 +389,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
             if (aya == false) {
-                Toast.makeText(getApplicationContext(), "Login gagal, sok cobaan deui..", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Login failed, Try again", Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();

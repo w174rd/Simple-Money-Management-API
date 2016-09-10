@@ -5,7 +5,6 @@
     tools:context="com.najib.task4.SynchronizeFragment"
     android:background="#FFFFFF">
 
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,4 +15,5 @@
         android:id="@+id/button"
         android:background="@drawable/button_biru"
         android:layout_gravity="center"/>
+
 </FrameLayout>
